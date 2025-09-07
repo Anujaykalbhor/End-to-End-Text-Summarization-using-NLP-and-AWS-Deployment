@@ -1,0 +1,12 @@
+pycache/
+*.pyc
+*.pyo
+.git/
+.venv/
+.idea/
+.vscode/
+dist/
+build/
+*.log
+data/
+artifacts/
