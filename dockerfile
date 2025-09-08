@@ -1,20 +1,24 @@
-# Use an official Python runtime as a parent image
+# Use a base image with Python
 FROM python:3.9-slim
 
-# Set the working directory in the container
+# Install git and git-lfs
+RUN apt-get update && apt-get install -y git git-lfs
+
+# Set the working directory
 WORKDIR /app
 
-# Copy the requirements file into the container at /app
+# Clone your repository
+RUN git lfs clone https://github.com/Anujaykalbhor/End-to-End-Text-Summarization-using-NLP-and-AWS-Deployment.git .
+
+# Or, if you're using a local copy
+# COPY . .
+
+# Install dependencies
 COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
 
-# Install any needed packages specified in requirements.txt
-RUN pip install --no-cache-dir -r requirements.txt --default-timeout=120 --extra-index-url=https://pypi.python.org/simple/
-
-# Copy the entire project directory into the container at /app
-COPY . .
-
-# Expose the port that the application will run on
+# Expose the correct port
 EXPOSE 8000
 
-# Run the app
+# Command to run your application
 CMD ["uvicorn", "app:app", "--host", "0.0.0.0", "--port", "8000"]
